@@ -116,9 +116,60 @@ This IRQ is the bridge between the ISR context (where data is parsed) and the ma
 
 ---
 
-### Summary
+<svg width="820" height="220" viewBox="0 0 820 220" xmlns="http://www.w3.org/2000/svg" font-family="ui-monospace,SFMono-Regular,Menlo,monospace">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#888" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
 
+<!-- MPU-6500 -->
+<rect x="20" y="88" width="110" height="44" rx="8" fill="#f1f0e8" stroke="#5f5e5a" stroke-width="0.5"/>
+<text x="75" y="114" text-anchor="middle" font-size="13" font-weight="500" fill="#2c2c2a">MPU-6500</text>
 
+<!-- Arrow 1 -->
+<line x1="130" y1="110" x2="238" y2="110" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="184" y="101" text-anchor="middle" font-size="11" fill="#666">INT / PA0</text>
+
+<!-- EXTI0 -->
+<rect x="240" y="68" width="156" height="84" rx="8" fill="#e6f1fb" stroke="#185fa5" stroke-width="0.5"/>
+<text x="318" y="96" text-anchor="middle" font-size="13" font-weight="500" fill="#0c447c">EXTI0_IRQHandler</text>
+<text x="318" y="114" text-anchor="middle" font-size="11" fill="#185fa5">Pull CS low</text>
+<text x="318" y="130" text-anchor="middle" font-size="11" fill="#185fa5">Start SPI + DMA</text>
+
+<!-- Arrow 2 -->
+<line x1="396" y1="110" x2="494" y2="110" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="445" y="101" text-anchor="middle" font-size="11" fill="#666">RX done</text>
+
+<!-- DMA2_Stream0 -->
+<rect x="496" y="68" width="168" height="84" rx="8" fill="#e1f5ee" stroke="#0f6e56" stroke-width="0.5"/>
+<text x="580" y="91" text-anchor="middle" font-size="11" font-weight="500" fill="#085041">DMA2_Stream0_IRQHandler</text>
+<text x="580" y="109" text-anchor="middle" font-size="11" fill="#0f6e56">Parse · filter</text>
+<text x="580" y="126" text-anchor="middle" font-size="11" fill="#0f6e56">count++ → SWI @ 5</text>
+
+<!-- Arrow 3 -->
+<line x1="664" y1="110" x2="718" y2="110" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text x="691" y="101" text-anchor="middle" font-size="11" fill="#666">SWI</text>
+
+<!-- EXTI1 -->
+<rect x="720" y="68" width="76" height="84" rx="8" fill="#faece7" stroke="#993c1d" stroke-width="0.5"/>
+<text x="758" y="95" text-anchor="middle" font-size="13" font-weight="500" fill="#712b13">EXTI1</text>
+<text x="758" y="113" text-anchor="middle" font-size="11" fill="#993c1d">flag</text>
+<text x="758" y="129" text-anchor="middle" font-size="11" fill="#993c1d">= 1</text>
+
+<!-- Arrow down to main -->
+<line x1="758" y1="152" x2="758" y2="183" stroke="#888" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<!-- main loop — two lines to fit comfortably -->
+<rect x="692" y="183" width="112" height="32" rx="6" fill="#f1f0e8" stroke="#5f5e5a" stroke-width="0.5"/>
+<text x="748" y="196" text-anchor="middle" font-size="10" fill="#2c2c2a">main: printf</text>
+<text x="748" y="209" text-anchor="middle" font-size="10" fill="#2c2c2a">averaged data</text>
+
+<!-- Rate labels -->
+<text x="318" y="178" text-anchor="middle" font-size="10" fill="#aaa">every sample (1 kHz)</text>
+<text x="580" y="178" text-anchor="middle" font-size="10" fill="#aaa">every sample</text>
+<text x="726" y="172" text-anchor="middle" font-size="10" fill="#aaa">every 5th</text>
+</svg>
 
 ##  MPU-6500 Setup Flow
 ,
